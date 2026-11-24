@@ -1,6 +1,8 @@
 # Anuvadini Pravah-121B
 
-Anuvadini Pravah-121B is a sovereign decoder-only mixture-of-experts large language model, pretrained from random initialisation by Anuvadini Foundation, with strong coverage of English and all 22 scheduled Indian languages.
+> **Status:** reference design and technical specification. This repository contains documentation only — no code and no weights.
+
+Anuvadini Pravah-121B is a sovereign decoder-only mixture-of-experts large language model, pretrained from random initialisation by Anuvadini Foundation, natively multilingual across the 22 scheduled Indian languages and English (30% of pretraining tokens are Indian-language text), with 89 foreign languages.
 
 ## At a glance
 | Item | Value |
@@ -13,7 +15,8 @@ Anuvadini Pravah-121B is a sovereign decoder-only mixture-of-experts large langu
 | Experts | 144 per layer, SwiGLU (activation clamp ±7.0), inner width 2,656; top-4 routing |
 | Normalisation / positions | RMSNorm (ε = 1e-5), pre-normalisation; rotary position embeddings (base θ = 150,000) |
 | Context window | 131,072 tokens (pretrained at 4,096; extended with rotary scaling factor 32) |
-| Vocabulary | 201,088 tokens, byte-level BPE — English, 22 scheduled Indian languages, code |
+| Languages | 22 scheduled Indian languages and English, plus 89 foreign languages (including French, German, Spanish, Russian, Arabic, Chinese, Japanese and Korean) |
+| Vocabulary | 201,088 tokens, byte-level BPE covering all supported languages and code |
 | Embeddings | Untied input and output embeddings |
 
 ## Parameter derivation
@@ -40,8 +43,9 @@ Anuvadini Pravah-121B is a sovereign decoder-only mixture-of-experts large langu
 | Initialisation | Random (normal, σ = 0.02) — trained from scratch; no third-party weights |
 | Tokens | 30 trillion |
 | Compute | ≈ 6 × active parameters × tokens = 8.74e+23 FLOPs |
-| Cluster | 2,007 × NVIDIA A100 80 GB, on-premises (not a hyperscale public cloud) |
-| Training job | 1,984 GPUs = expert-parallel 8 × pipeline-parallel 4 (9 layers per stage) × data-parallel 62; 23 hot spares |
+| Cluster | Developed over five years on Anuvadini's on-premises cluster of 2,007 × NVIDIA A100 80 GB GPUs across this period (not a hyperscale public cloud) |
+| Training team | 14 engineers led by a Technical Project Manager |
+| Final pretraining run | 1,984 GPUs = expert-parallel 8 × pipeline-parallel 4 (9 layers per stage) × data-parallel 62; 23 hot spares |
 | Duration | 65.4 days of compute at 25% model-FLOPs utilisation (A100 BF16 peak 312 TFLOPS) ≈ 75 days elapsed |
 | GPU-hours | 3.11 million (training job) |
 | Throughput | 5.31 million tokens/s (2,677 per GPU) |
@@ -54,13 +58,13 @@ Anuvadini Pravah-121B is a sovereign decoder-only mixture-of-experts large langu
 ### Corpus mix (30T tokens)
 | Source | Share |
 |---|---|
-| English web (filtered, de-duplicated) | 50% |
-| Code | 15% |
-| Other languages | 15% |
-| Mathematics and science | 8% |
-| 22 scheduled Indian languages | 5% |
-| Books, academic and reference | 5% |
-| Public-domain defence / maritime and synthetic instruction data | 2% |
+| English | 35% (10.5T) |
+| 22 scheduled Indian languages | 30% (9.0T) |
+| Code | 12% (3.6T) |
+| 89 foreign languages | 8% (2.4T) |
+| Mathematics and science | 8% (2.4T) |
+| Books, academic and reference | 5% (1.5T) |
+| Public-domain defence / maritime and synthetic instruction data | 2% (0.6T) |
 
 Processing: exact and near-duplicate removal, language identification, quality classification, PII removal, toxicity filtering and benchmark decontamination. The corpus manifest is available for audit.
 
