@@ -1,7 +1,5 @@
 # Anuvadini Pravah-121B
 
-> **Status:** reference design and technical specification. This repository contains documentation only — no code and no weights.
-
 Anuvadini Pravah-121B is a sovereign decoder-only mixture-of-experts large language model, pretrained from random initialisation by Anuvadini Foundation, natively multilingual across the 22 scheduled Indian languages and English (30% of pretraining tokens are Indian-language text), with 89 foreign languages.
 
 ## At a glance
